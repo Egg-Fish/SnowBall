@@ -12,7 +12,7 @@
    viewBox="0 0 1920.0 1080.0"
    version="1.1"
    id="SVGRoot"
-   sodipodi:docname="JournalEntry&amp;Edit.svg"
+   sodipodi:docname="JournalEditScreen.svg"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)">
   <defs
      id="defs28">
@@ -94,17 +94,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8284271"
-     inkscape:cx="1630.3329"
-     inkscape:cy="998.07647"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="918.48528"
+     inkscape:cy="250.48265"
      inkscape:document-units="px"
-     inkscape:current-layer="g103"
+     inkscape:current-layer="g1183"
      inkscape:document-rotation="0"
      showgrid="false"
      inkscape:window-width="1850"
-     inkscape:window-height="980"
+     inkscape:window-height="948"
      inkscape:window-x="35"
-     inkscape:window-y="35"
+     inkscape:window-y="67"
      inkscape:window-maximized="0"
      inkscape:snap-bbox="true"
      inkscape:bbox-nodes="false"
@@ -494,7 +494,7 @@
        id="g1183"
        inkscape:label="MDToobar">
       <rect
-         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.94623;filter:url(#filter1152);stop-color:#000000"
+         style="fill:#1a237e;fill-opacity:1;stroke:none;stroke-width:1.94623;filter:url(#filter1152);stop-color:#000000"
          id="rect45"
          width="1920.1022"
          height="86.707817"
