@@ -80,10 +80,25 @@ class MainLayout(MDBoxLayout):
 
 
 
+Builder.load_file('SnowBall.kv')
+Builder.load_file('kv/JournalScreen.kv')
+Builder.load_file('kv/WelcomeScreen.kv')
+Builder.load_file('kv/JournalEditScreen.kv')
+Builder.load_file('kv/JournalEntryScreen.kv')
+Builder.load_file('kv/SnowballScreen.kv')
+Builder.load_file('kv/SnowballEditScreen.kv')
+Builder.load_file('kv/SnowballEntryScreen.kv')
+Builder.load_file('kv/ReminderWidget.kv')
+Builder.load_file('kv/JournalEntryWidget.kv')
+Builder.load_file('kv/SnowballWidget.kv')
+
+
+
+
 class SnowBallApp(MDApp):
     def build(self):
         self.theme_cls.primary_palette = "Indigo"
-        self.theme_cls.theme_style = "Light"
+        self.theme_cls.theme_style = "Dark"
         return MainLayout()
 
 

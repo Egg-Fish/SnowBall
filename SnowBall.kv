@@ -1,0 +1,50 @@
+<MainLayout>:
+	orientation: "vertical"
+	MDToolbar:
+		title: ""
+	
+	MDBoxLayout:
+		orientation: "horizontal"
+		
+		MDNavigationRail:
+			md_bg_color: app.theme_cls.bg_dark	
+			use_action_button: True
+			action_color_button: app.theme_cls.primary_color 
+			action_icon_button: "book-plus"
+			use_hover_behavior: True
+			color_active: app.theme_cls.primary_color
+
+			on_action_button: sm.current = "JournalEntryScreen"			
+
+			MDNavigationRailItem:
+				icon: "snowflake"
+				on_press: sm.current = "SnowballScreen"
+					
+			MDNavigationRailItem:
+				icon: "book-account"
+				on_press: sm.current = "JournalScreen"
+		
+
+		Screens:
+			id: sm
+	
+			WelcomeScreen:
+				name: "WelcomeScreen"
+			
+			JournalScreen:
+				name: "JournalScreen"
+			
+			JournalEditScreen:
+				name: "JournalEditScreen"
+
+			JournalEntryScreen:
+				name: "JournalEntryScreen"
+
+			SnowballScreen:
+				name: "SnowballScreen"
+
+			SnowballEditScreen:
+				name: "SnowballEditScreen"
+
+			SnowballEntryScreen:
+				name: "SnowballEntryScreen"
