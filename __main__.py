@@ -8,6 +8,7 @@ import datetime
 
 
 
+
 class JournalEntry():
     def __init__(self):
         self._name = ""
