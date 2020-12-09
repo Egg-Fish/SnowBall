@@ -1,0 +1,33 @@
+<WelcomeScreen>:
+	MDBoxLayout:
+		orientation: "vertical"
+		md_bg_color: app.theme_cls.primary_color
+
+		Image:
+			source: "assets/logo.png"
+			allow_stretch: True				
+			
+		MDBoxLayout:
+			id: bottomPage
+			size_hint: 1, 0.3
+			md_bg_color: app.theme_cls.bg_normal
+			padding: 80
+			spacing: 50
+
+			MDLabel:
+
+			MDFlatButton:
+				text: "Create Entry"
+				text_color: app.theme_cls.text_color
+				md_bg_color: app.theme_cls.primary_dark
+				font_size: 40
+				on_press: root.manager.current = "JournalEntryScreen"
+		
+			MDFlatButton:
+				text: "View Snowballs"
+				text_color: app.theme_cls.text_color
+				md_bg_color: app.theme_cls.primary_dark
+				font_size: 40		
+				on_press: root.manager.current = "SnowballScreen"
+
+			MDLabel:

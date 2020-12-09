@@ -206,6 +206,9 @@ class SnowballContainer():
 
 
 
+class ReminderWidget(MDBoxLayout):
+    pass
+
 class JournalEntryWidget(MDBoxLayout):
     pass
 
@@ -218,6 +221,14 @@ class SnowballWidget(MDBoxLayout):
 class WelcomeScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self._reminders = []
+        self._reminder_widgets = []
+
+        self._reminders = self._getReminders()
+        
+
+    def _getReminders(self):
+        pass
 
 class JournalScreen(Screen):
     def __init__(self, **kwargs):
