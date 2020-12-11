@@ -1,9 +1,10 @@
 from kivymd.app import MDApp
 from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.picker import MDDatePicker
 
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
-from kivy.properties import ListProperty
+from kivy.properties import ListProperty, ObjectProperty
 from kivy.uix.button import Button
 from kivy.clock import Clock
 
@@ -211,7 +212,15 @@ class SnowballContainer():
 
 
 class JournalEntryWidget(MDBoxLayout):
-    pass
+    
+    def __init__(self, **kwargs):
+        super().__init__()
+        self._journal_entry = kwargs["journal_entry"]
+        
+        self.ids.tagImage.md_bg_color = SnowBall.COLORS[self._journal_entry.getTag()] 
+        self.ids.Name.text = self._journal_entry.getName()
+        self.ids.SecondaryText.text = self._journal_entry.getDate().date().isoformat()
+
 
 class SnowballWidget(MDBoxLayout):
     pass
@@ -241,6 +250,10 @@ class Tag(Button):
         except:
             self.event.cancel()
 
+
+
+
+
 class WelcomeScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -248,10 +261,77 @@ class WelcomeScreen(Screen):
 class JournalScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self._journal = Journal()        
+        self._journal_entry_widgets = []
+        self.bind(on_pre_enter=self._preEnter)
+         
+        self._range = []
+
+
+    def _preEnter(self, _):
+        self.ids.entries.bind(minimum_height=self.ids.entries.setter('height'))
+        self._range = []
+        self._journal_entry_widgets = []
+        self._journal = SnowBall.getJournal()
+        self.ids.entries.clear_widgets()
+        self._createJournalEntryWidgets()
+
+    def _pickFilterRange(self):
+        self._range = []
+        picker = MDDatePicker(callback=self._setStartDate)
+        picker.open()
+
+
+    def _setStartDate(self, time):
+        self._range.append(time)
+
+        picker = MDDatePicker(callback=self._setEndDate, min_date = time)
+        picker.open()
+
+    def _setEndDate(self, time):
+        self._range.append(time)
+        self._createJournalEntryWidgets()
+
+    def _filterEntries(self):
+        filtered = []
+
+        for entry in self._journal.entries:
+            if entry.getDate().date() >= self._range[0] and entry.getDate().date() <= self._range[1]:
+                filtered.append(entry)
+
+        return filtered
+    
+    def _displayEntries(self):
+        self.ids.entries.clear_widgets() 
+        for entry in reversed(self._journal_entry_widgets):
+            self.ids.entries.add_widget(entry)
+
+
+    def _createJournalEntryWidgets(self):
+        if len(self._range) != 0:
+            entries = self._filterEntries()
+        
+        else:
+            entries = self._journal.entries
+
+        self._journal_entry_widgets = []
+        for entry in entries:
+            widget = JournalEntryWidget(journal_entry=entry)
+            self._journal_entry_widgets.append(widget)
+            
+        self._displayEntries()
+
+    def _openJournalEditScreen(self, entry):
+        self.manager._journal_entry_edit = entry
+        self.manager.current = "JournalEditScreen"
 
 class JournalEditScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.bind(on_pre_enter=self.preEnter)
+
+    def preEnter(self, _):
+        print(self.manager._journal_entry_edit.getName())
 
 class JournalEntryScreen(Screen):
     tc = ListProperty((1,1,1,0))
@@ -387,7 +467,21 @@ class SnowBallApp(MDApp):
         self._journal + entry
         self._saveData()
         
+    def updateJournalEntry(self, entry):
+        self._journal * entry
+        self._saveData()
+
+    def removeJournalEntry(self, entry):
+        self._journal - entry
+        self._saveData()
+
     
+    def getJournal(self):
+        return self._journal
+
+    def getSnowballs(self):
+        return self._snowballcontainer.snowballs
+
     
 if __name__ == "__main__":
     SnowBall = SnowBallApp()

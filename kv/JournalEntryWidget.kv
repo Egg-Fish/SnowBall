@@ -1,0 +1,32 @@
+<JournalEntryWidget>:
+	orientation: "vertical"
+	md_bg_color: app.theme_cls.bg_darkest
+	padding: 30
+	spacing: 25	
+	
+	MDBoxLayout:
+		id: tagImage
+		padding: 0
+		spacing: 0
+		Image:
+			source: "assets/page.png"
+			allow_stretch: True
+			keep_ratio: False
+
+	MDLabel:
+		id: Name
+		size_hint: 1, 0.1
+		font_style: "H2"
+		halign: "center"
+
+	MDLabel:
+		id: SecondaryText
+		size_hint: 1, 0.1
+		halign: "center"
+
+	MDFlatButton:
+		text: "EDIT"
+		md_bg_color: app.theme_cls.primary_dark
+		text_color: 1,1,1,1
+		pos_hint: {"center_x": .5, "center_y": .5}
+		on_press: root.parent.parent.parent.parent._openJournalEditScreen(root._journal_entry)	

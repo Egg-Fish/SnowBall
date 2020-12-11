@@ -1,0 +1,21 @@
+<JournalScreen>:
+	MDBoxLayout:
+		orientation: 'vertical'
+		MDToolbar:
+			left_action_items: [["menu", lambda x: root._pickFilterRange()]]
+		
+		ScrollView:
+			
+			MDGridLayout:
+				size_hint_y: None
+				id: entries
+				cols: 3
+				col_default_width: (self.width - 100) / 3  	
+				col_force_default: True
+
+				row_default_height: root.height / 1.5
+				row_force_default: True
+
+				padding: 25
+				spacing: 25
+
