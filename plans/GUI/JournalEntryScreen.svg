@@ -12,7 +12,7 @@
    viewBox="0 0 1920.0 1080.0"
    version="1.1"
    id="SVGRoot"
-   sodipodi:docname="JournalEntry.svg"
+   sodipodi:docname="JournalEntryScreen.svg"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)">
   <defs
      id="defs28">
@@ -89,16 +89,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.5"
-     inkscape:cx="851.39864"
-     inkscape:cy="590.95335"
+     inkscape:cx="1047.9691"
+     inkscape:cy="660.55107"
      inkscape:document-units="px"
      inkscape:current-layer="layer3"
      inkscape:document-rotation="0"
      showgrid="false"
      inkscape:window-width="1850"
-     inkscape:window-height="980"
+     inkscape:window-height="948"
      inkscape:window-x="35"
-     inkscape:window-y="35"
+     inkscape:window-y="1147"
      inkscape:window-maximized="0"
      inkscape:snap-bbox="true"
      inkscape:bbox-nodes="false"
@@ -281,18 +281,6 @@
        x="1560.6157"
        y="877.97699"
        inkscape:label="MetaPage" />
-    <circle
-       style="fill:#808080;fill-opacity:1;stroke-width:10;stop-color:#000000"
-       id="path1077"
-       cx="502.26196"
-       cy="474.62738"
-       r="18.83481" />
-    <circle
-       style="fill:#808080;fill-opacity:1;stroke-width:10;stop-color:#000000"
-       id="path1077-7"
-       cx="502.26196"
-       cy="803.72388"
-       r="18.83481" />
     <rect
        style="fill:none;fill-opacity:1;stroke:#00cc00;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stop-color:#000000"
        id="rect1094"

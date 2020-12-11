@@ -1,12 +1,13 @@
 import os, pickle, datetime, random
-from datatest import JournalEntry, Journal, Snowball, SnowballContainer
+from main import JournalEntry, Journal, Snowball, SnowballContainer
 
+
+f = "./SnowBall.p"
 
 def saveData():
     with open(f, 'wb') as pf:
         pickle.dump(rawdata, pf)
 
-f = "./SnowBall.p"
 
 try:
     with open(f, 'rb') as pf:
