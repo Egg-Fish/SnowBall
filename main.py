@@ -340,12 +340,12 @@ class JournalEntryScreen(Screen):
         super().__init__(**kwargs)
         self.journal_entry = JournalEntry()
         self.journal_entry.setTag("Blue")
-        self.journal_entry.setDate(datetime.datetime.today())
         self.bind(on_pre_enter=self.preEnter) 
         
 
     def preEnter(self, _):
         self.ids.tagrow.clear_widgets()
+
         for color in SnowBall.COLORS:
             print(color)
     
@@ -359,10 +359,15 @@ class JournalEntryScreen(Screen):
     def createJournalEntry(self):
         self.journal_entry.setName(self.ids.name.text)
         self.journal_entry.setData(self.ids.data.text)
+        self.journal_entry.setDate(datetime.datetime.today())
 
         SnowBall.addJournalEntry(self.journal_entry)
-        self.manager.current = "WelcomeScreen" 
-
+        self.manager.current = "WelcomeScreen"
+        
+        self.ids.name.text = ""
+        self.ids.data.text = ""
+        self.journal_entry = JournalEntry()
+        self.journal_entry.setTag("Blue")
 
 class SnowballScreen(Screen):
     def __init__(self, **kwargs):
@@ -418,10 +423,10 @@ class SnowBallApp(MDApp):
         for entry in self._journal.entries:
             print('[ENTRY]'.center(80, '-'))
             print("Name:", entry.getName())
-            print("Date", entry.getDate())
+            print("Date:", entry.getDate())
             print("Tag:", entry.getTag())
             print("ID:", entry.getID())
-            print("\nData:\n", entry.getData())
+            print("\nData:", entry.getData())
 
         print('--'.center(80, '-'))
 
