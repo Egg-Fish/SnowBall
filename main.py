@@ -326,12 +326,40 @@ class JournalScreen(Screen):
         self.manager.current = "JournalEditScreen"
 
 class JournalEditScreen(Screen):
+    tc = ListProperty((1,1,1,0))
+    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.bind(on_pre_enter=self.preEnter)
 
+
     def preEnter(self, _):
-        print(self.manager._journal_entry_edit.getName())
+        self.journal_entry = self.manager._journal_entry_edit
+
+        self.ids.tagrow.clear_widgets()
+
+        for color in SnowBall.COLORS:
+            self.ids.tagrow.add_widget(Tag(tagColor=color, id=color))
+        
+        self.ids.data.text = self.journal_entry.getData()
+        self.ids.name.text = self.journal_entry.getName()
+        Clock.schedule_interval(self.updateColor, 0.01)
+
+    def updateColor(self, _):
+        self.tc = SnowBall.COLORS[self.journal_entry.getTag()]
+
+    def updateJournalEntry(self):
+        self.journal_entry.setName(self.ids.name.text)
+        self.journal_entry.setData(self.ids.data.text)
+
+        SnowBall.updateJournalEntry(self.journal_entry)
+        self.manager.current = "JournalScreen"
+
+    def removeJournalEntry(self):
+        SnowBall.removeJournalEntry(self.journal_entry)
+        self.manager.current = "JournalScreen"
+
+
 
 class JournalEntryScreen(Screen):
     tc = ListProperty((1,1,1,0))
@@ -347,8 +375,6 @@ class JournalEntryScreen(Screen):
         self.ids.tagrow.clear_widgets()
 
         for color in SnowBall.COLORS:
-            print(color)
-    
             self.ids.tagrow.add_widget(Tag(tagColor=color, id=color))
     
         Clock.schedule_interval(self.updateColor, 0.01)

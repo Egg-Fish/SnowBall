@@ -1,0 +1,103 @@
+<JournalEditScreen>:
+	id: JournalEditScreen
+	MDBoxLayout:
+		md_bg_color: app.theme_cls.primary_color
+
+		MDLabel:
+			id: filler
+			size_hint: 0.3, 1
+	
+		MDBoxLayout:
+			id: entry
+			md_bg_color: app.theme_cls.bg_dark
+
+			Label:
+				size_hint: 0.1, 1
+			
+				canvas.before:
+					Color:
+						rgba: root.tc
+					Rectangle:
+						size: self.width * 0.3 , 200
+						pos: (self.pos[0] + 0.35 * self.width, self.pos[1] + self.height - 200)
+			ScrollView:
+				id: sv
+				do_scroll_y: True
+				TextInput:
+					id: data
+					size_hint: 1, None
+					height: max(self.minimum_height, sv.height)
+					background_active: ""
+					background_normal: ""
+					background_color: app.theme_cls.bg_normal
+					padding: 30
+					font_size: 30
+					foreground_color: app.theme_cls.text_color
+
+			MDLabel:
+				size_hint: 0.1, 1
+			
+			
+		MDBoxLayout:
+			size_hint: 0.35, 1
+			md_bg_color: app.theme_cls.primary_dark
+			orientation: "vertical"
+			MDBoxLayout:
+				padding: 25
+				size_hint: 1, 0.1
+				MDTextField:
+					id: name
+					hint_text: "Name:"	
+					line_color_focus: 1,1,1,1
+					line_color_normal: 1,1,1,1
+					text_color: 1,1,1,1
+					current_hint_text_color: 1,1,1,1
+				
+					font_size: 30
+					padding: 25
+	
+			MDBoxLayout:
+				id: tags
+				orientation: "vertical"
+				md_bg_color: app.theme_cls.primary_color
+				
+				MDLabel:
+					halign: "center"
+					text: "Tags"
+					font_style: "H3"
+					color: 1,1,1,1
+					size_hint: 1, 0.2
+					pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+				TagRow:
+					id: tagrow
+					spacing: 25			
+					padding: 25, 25, 25, 0
+
+				MDBoxLayout:
+					id: buttons
+					orientation: "horizontal"
+					md_bg_color: app.theme_cls.primary_light
+					size_hint: 1, 0.8
+					padding: 50
+					spacing: (self.width - 50 - editButton.width - removeButton.width) / 2
+		
+					MDFlatButton:
+						id: editButton
+						pos_hint: {"center_x": 0.5, "center_y": 0.5}
+						text: "EDIT"
+						font_size: 35
+						md_bg_color: app.theme_cls.primary_dark
+						text_color: 1,1,1,1
+						
+						on_press: root.updateJournalEntry() 
+
+					MDFlatButton:
+						id: removeButton
+						pos_hint: {"center_x": 0.5, "center_y": 0.5}
+						text: "REMOVE"
+						font_size: 35
+						md_bg_color: 1,0,0,1
+						text_color: 1,1,1,1
+						
+						on_press: root.removeJournalEntry() 
