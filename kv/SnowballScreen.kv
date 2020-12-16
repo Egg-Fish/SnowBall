@@ -1,0 +1,55 @@
+<SnowballScreen>:
+	MDBoxLayout:
+		orientation: "vertical"
+
+		MDBoxLayout:
+			id: titleBar
+			orientation: "horizontal"
+			padding: 50
+		
+			md_bg_color: app.theme_cls.primary_color
+	
+			Image:
+				source: "assets/Snowball.png"
+		
+			MDBoxLayout:
+				orientation: "vertical"
+			
+				MDLabel:
+					text: "Snowballs"
+					halign: "center"
+					color: 1,1,1,1
+					font_style: "H1"
+
+				MDFlatButton:
+					text: "Add Snowball"
+					text_color: 1,1,1,1
+					font_size: 30
+
+					pos_hint: {"center_x": 0.5}
+					md_bg_color: app.theme_cls.primary_dark
+					
+					on_press: root.manager.current = "SnowballEntryScreen"
+			Image:
+				source: "assets/Snowball.png"
+
+		MDBoxLayout:
+			id: filler
+			md_bg_color: app.theme_cls.bg_normal
+
+			padding: 50
+
+			ScrollView:
+				id: sv
+				do_scroll_y: True
+				MDGridLayout:
+					id: snowballs
+					cols: 2
+					size_hint: 1, None
+					height: max(self.minimum_height, sv.height)
+					padding: 25
+					md_bg_color: app.theme_cls.bg_darkest
+					row_default_height: 250
+					row_force_default: True
+					col_default_width: 850
+					col_force_default: True

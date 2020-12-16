@@ -75,7 +75,7 @@ def createDummySnowball():
     sb.setDate(datetime.datetime.today())
     sb.setFrequency(random.randint(1,7))
     sb.setID(random.randint(1, 99999))
-
+    sb.completedToday()
     rawdata["snowballcontainer"] + sb
     saveData()
 

@@ -1,6 +1,6 @@
 from kivymd.app import MDApp
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.picker import MDDatePicker
+from kivymd.uix.picker import MDDatePicker, MDThemePicker
 
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
@@ -223,13 +223,33 @@ class JournalEntryWidget(MDBoxLayout):
 
 
 class SnowballWidget(MDBoxLayout):
-    pass
+    def __init__(self, **kwargs):
+        super().__init__()
+        self.snowball = kwargs["snowball"]
+        self.ids.name.text = self.snowball.getName() 
+        
+        completionDate = self.snowball.getLastCompleted().date() + datetime.timedelta(days=self.snowball._frequency)
+        self.ids.completionDate.text = "Due Date: " + completionDate.isoformat()
+
+        witherDate = completionDate + datetime.timedelta(days=self.snowball._tolerance)
+        diff = witherDate - datetime.date.today()
+        self.ids.witherDate.text = "Wither Date: " + witherDate.isoformat() + f" ({diff.days} days)"
+        
+        self.ids.tickButton.md_bg_color = (0, 1, 0, 1)
+        
+        if self.snowball.getLastCompleted().date() == datetime.date.today():
+            self.ids.tickButton.md_bg_color = SnowBall.theme_cls.primary_dark
+        
+        if completionDate == datetime.date.today():
+            self.ids.completionDate.text = "Due Date: Today"
+        
+        
 
 
 class TagRow(MDBoxLayout):
     def setCurrent(self, tag):
         self.parent.parent.parent.parent.journal_entry._tag = tag
-    pass
+    
 
 class Tag(Button):
     def __init__(self, **kwargs):
@@ -398,6 +418,22 @@ class JournalEntryScreen(Screen):
 class SnowballScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.bind(on_pre_enter=self.preEnter)
+
+    def preEnter(self, _):
+        self.snowballs = SnowBall.getSnowballs()
+        self._snowball_widgets = []
+
+        self.ids.snowballs.clear_widgets()
+        for snowball in self.snowballs:
+            widget = SnowballWidget(snowball=snowball)
+            self._snowball_widgets.append(widget)    
+            self.ids.snowballs.add_widget(widget)
+
+    def openSnowballEditScreen(self, snowball):
+        self.manager.snowball_edit = snowball
+        self.manager.current = "SnowballEditScreen"
+
 
 class SnowballEditScreen(Screen):
     def __init__(self, **kwargs):
@@ -406,9 +442,28 @@ class SnowballEditScreen(Screen):
 class SnowballEntryScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.freq = 0
 
+    def setFrequency(self, freq):
+        self.freq = freq
+        
+        if freq == 1:
+            self.ids.frequency.text = "Everyday"
 
+        elif freq == 7:
+            self.ids.frequency.text = "Every Week"
 
+    def createSnowball(self):
+        self.snowball = Snowball()
+        self.snowball.setDate(datetime.datetime.today())
+        self.snowball.setName(self.ids.name.text)
+        self.snowball.setDescription(self.ids.description.text)
+        self.snowball.setFrequency(self.freq)
+        self.snowball.completedToday()
+
+        SnowBall.addSnowball(sb=self.snowball) 
+        
+        self.manager.current = "SnowballScreen"
 
 class Screens(ScreenManager):
     def __init__(self, **kwargs):
@@ -436,6 +491,9 @@ class SnowBallApp(MDApp):
         with open(self._data_file_path, "wb+") as pf:
             pickle.dump(self.rawdata, pf)
 
+    def show_theme_picker(self):
+            theme_dialog = MDThemePicker()
+            theme_dialog.open()
 
     def debugInfo(self):
         print('[DEBUGINFO]'.center(80, '-'))
@@ -513,7 +571,20 @@ class SnowBallApp(MDApp):
     def getSnowballs(self):
         return self._snowballcontainer.snowballs
 
-    
+
+    def addSnowball(self, sb):
+        ID = random.randint(0, 99999999)
+
+        if ID in self._snowballcontainer.getIDs():
+            ID = random.randint(0, 99999999)
+
+        sb.setID(ID)
+        self._snowballcontainer + sb
+        self._saveData()
+
+
+
+
 if __name__ == "__main__":
     SnowBall = SnowBallApp()
     SnowBall.run()

@@ -1,0 +1,53 @@
+<SnowballWidget>:
+	orientation: "vertical"
+	MDIconButton:
+		id: editButton
+		icon: "toolbox"
+	
+		pos_hint: {"right": 1}
+		md_bg_color: app.theme_cls.primary_dark
+		
+		on_press: root.parent.parent.parent.parent.parent.openSnowballEditScreen(snowball=root.snowball)
+	MDBoxLayout:
+		padding: 50, 0, editButton.width + 50, 0
+		spacing: 25
+
+		canvas.before:
+			Color:
+				rgba: app.theme_cls.primary_color
+			RoundedRectangle:
+				size: (self.size[0] - editButton.width, self.size[1])
+				pos: self.pos
+				radius: [self.height / 2]
+
+		Image:
+			id: levelImage
+			source: "assets/Snowball.png"	
+			size_hint: 0.1, 1	
+		MDBoxLayout:
+			id: info
+			size_hint: 0.3, 1
+			padding: 25
+			orientation: "vertical"
+
+			MDLabel:
+				id: name
+				color: 1,1,1,1 
+				font_style: "H3"
+		
+			MDLabel:
+				id: completionDate
+				color: 1,1,1,1 
+				font_style: "H5"
+
+			MDLabel:
+				id: witherDate
+				color: 1,1,1,1 
+
+
+		MDIconButton:
+			id: tickButton
+			size: 80, 80	
+			icon: "check-bold"
+			pos_hint: {"center_x": 0.5, "center_y": 0.5}
+			on_press: print(root.size)
