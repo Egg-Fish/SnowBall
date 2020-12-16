@@ -1,3 +1,5 @@
+#:import datetime datetime
+
 <SnowballEntryScreen>:
 	MDBoxLayout:
 		
@@ -75,3 +77,22 @@
 		MDBoxLayout:
 			id: displayPage
 			md_bg_color: app.theme_cls.primary_color
+			orientation: "vertical"			
+
+			MDLabel:
+				id: startDate
+				text: "Start Date: " + datetime.date.today().isoformat()
+				color: 1,1,1,1
+				halign: "center"
+				font_style: "H2"
+
+			Image:
+				id: levelImage
+				source: "assets/level0.png"
+
+			MDLabel:
+				id: level
+				text: "Level 0"
+				color: 1,1,1,1
+				halign: "center"
+				font_style: "H1"

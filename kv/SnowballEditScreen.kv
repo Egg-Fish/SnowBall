@@ -1,0 +1,109 @@
+<SnowballEditScreen>:
+	MDBoxLayout:
+		
+		MDBoxLayout:
+			id: infoPage
+			padding: 50 
+			spacing: 25
+			orientation: "vertical"
+
+			MDBoxLayout:
+				size_hint: 1, 0.3
+				md_bg_color: app.theme_cls.bg_darkest
+				padding: 50
+
+				MDTextField:
+					id: name
+					hint_text: "Name"
+					font_size: 40
+					text_color: app.theme_cls.text_color
+
+			MDBoxLayout:
+				md_bg_color: app.theme_cls.bg_darkest
+				padding: 50
+				orientation: "vertical"
+	
+				MDTextField:
+					id: description
+					hint_text: "Description"
+					font_size: 30
+					text_color: app.theme_cls.text_color
+
+				MDLabel:
+					size_hint: 1, 0.2
+					text: "Frequency"
+					halign: "center"
+					font_style: "H3"
+				MDBoxLayout:
+					id: buttonRow
+					orientation: "vertical"	
+					spacing: 50
+					padding: 50
+					MDFlatButton:
+						pos_hint: {"center_x": 0.5, "center_y": 0.5}
+						id: b1
+						md_bg_color: app.theme_cls.primary_dark
+						text: " Daily"
+						text_color: 1,1,1,1
+						font_size: 30
+						
+						on_press: root.setFrequency(1)
+					MDFlatButton:
+						pos_hint: {"center_x": 0.5, "center_y": 0.5}
+						id: b2
+						md_bg_color: app.theme_cls.primary_dark
+						text: "Weekly"
+						text_color: 1,1,1,1
+						font_size: 30
+					
+						on_press: root.setFrequency(7)
+				MDLabel:
+					id: frequency
+					halign: "center"
+					size_hint: 1, 0.2
+					font_style: "H3"
+			
+			MDBoxLayout:
+				size_hint: 1, 0.4
+				orientation: "vertical"
+				spacing: 25
+	
+				MDFlatButton:
+					pos_hint: {"center_x": 0.5, "center_y": 0.5}
+					md_bg_color: app.theme_cls.primary_dark
+					text_color: 1,1,1,1
+					text: "EDIT"
+					font_size: 60
+				
+					on_press: root.updateSnowball()
+				
+				MDFlatButton:
+					pos_hint: {"center_x": 0.5, "center_y": 0.5}
+					md_bg_color: 1,0,0,1
+					text_color: 1,1,1,1
+					text: "REMOVE"
+					font_size: 60
+				
+					on_press: root.removeSnowball()
+				
+
+		MDBoxLayout:
+			id: displayPage
+			md_bg_color: app.theme_cls.primary_color
+			orientation: "vertical"			
+
+			MDLabel:
+				id: startDate
+				color: 1,1,1,1
+				halign: "center"
+				font_style: "H2"
+
+			Image:
+				id: levelImage
+				source: "assets/level0.png"
+
+			MDLabel:
+				id: level
+				color: 1,1,1,1
+				halign: "center"
+				font_style: "H1"

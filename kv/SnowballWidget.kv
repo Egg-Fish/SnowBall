@@ -19,14 +19,24 @@
 				size: (self.size[0] - editButton.width, self.size[1])
 				pos: self.pos
 				radius: [self.height / 2]
+		MDBoxLayout:
+			orientation: "vertical"
+			size_hint: 0.3, 1
+			padding: 0,0,0,50	
 
-		Image:
-			id: levelImage
-			source: "assets/Snowball.png"	
-			size_hint: 0.1, 1	
+			Image:
+				id: levelImage
+				source: "assets/Snowball.png"	
+			MDLabel:
+				id: level
+				color: 1,1,1,1 
+				size_hint: 1, 0.1	
+				halign: "center"
+				font_style: "H5"	
+
 		MDBoxLayout:
 			id: info
-			size_hint: 0.3, 1
+			size_hint: 1, 1
 			padding: 25
 			orientation: "vertical"
 
@@ -50,4 +60,4 @@
 			size: 80, 80	
 			icon: "check-bold"
 			pos_hint: {"center_x": 0.5, "center_y": 0.5}
-			on_press: print(root.size)
+			on_press: root.markCompleted()

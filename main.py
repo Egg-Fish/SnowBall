@@ -201,8 +201,8 @@ class SnowballContainer():
                 break
 
         self.snowballs[edit_index].setName(snowball.getName())
-        self.snowballs[edit_index].setFrequency(snowball.getFrequency())
-        self.snowballs[edit_index].setDescription(snowball.getDescription)
+        self.snowballs[edit_index].setFrequency(snowball._frequency)
+        self.snowballs[edit_index].setDescription(snowball.getDescription())
     
 
     def getIDs(self):
@@ -242,8 +242,22 @@ class SnowballWidget(MDBoxLayout):
         
         if completionDate == datetime.date.today():
             self.ids.completionDate.text = "Due Date: Today"
+       
+        level = self.snowball.getLevel()
+        self.ids.level.text = f"Level {level}"
+
+        if level > 3:
+            level = 3
+
+        self.ids.levelImage.source = f"assets/level{level}.png"
         
-        
+
+
+
+    def markCompleted(self):
+        if self.snowball.getLastCompleted().date() != datetime.date.today():
+            SnowBall.markSnowballAsCompleted(self.snowball)
+            self.ids.tickButton.md_bg_color = SnowBall.theme_cls.primary_dark
 
 
 class TagRow(MDBoxLayout):
@@ -438,11 +452,57 @@ class SnowballScreen(Screen):
 class SnowballEditScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.snowball = Snowball()
+        self.bind(on_pre_enter=self.preEnter)
+
+    def preEnter(self, _):
+        self.snowball = self.manager.snowball_edit
+        self.freq = self.snowball._frequency
+        self.ids.name.text = self.snowball.getName()
+        self.ids.description.text = self.snowball.getDescription()
+        self.ids.frequency.text = "Everyday" if self.snowball._frequency == 1 else "Every Week"
+        self.ids.startDate.text = "Start Date: " + self.snowball.getDate().date().isoformat()
+        
+        level = self.snowball.getLevel()
+        
+        self.ids.level.text = f"Level {level}"
+
+        if level > 3:
+            level = 3
+
+        self.ids.levelImage.source = f"assets/level{level}.png"
+
+    def setFrequency(self, freq):
+        self.freq = freq
+        
+        if freq == 1:
+            self.ids.frequency.text = "Everyday"
+
+        elif freq == 7:
+            self.ids.frequency.text = "Every Week"
+
+    def updateSnowball(self):
+        self.snowball.setName(self.ids.name.text)
+        self.snowball.setDescription(self.ids.description.text)
+        self.snowball.setFrequency(self.freq)
+        
+        SnowBall.updateSnowball(sb=self.snowball)
+        self.manager.current = "SnowballScreen"
+
+    def removeSnowball(self):
+        SnowBall.removeSnowball(self.snowball)
+        self.manager.current = "SnowballScreen"
+
 
 class SnowballEntryScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.freq = 0
+        self.freq = 1
+        self.bind(on_pre_enter=self.preEnter)
+
+    def preEnter(self, _):
+        self.ids.name.text = ""
+        self.ids.description.text = ""
 
     def setFrequency(self, freq):
         self.freq = freq
@@ -582,7 +642,20 @@ class SnowBallApp(MDApp):
         self._snowballcontainer + sb
         self._saveData()
 
+    def removeSnowball(self, sb):
+        self._snowballcontainer - sb
+        self._saveData()
 
+    def updateSnowball(self, sb):
+        self._snowballcontainer * sb
+        self._saveData()
+
+    def markSnowballAsCompleted(self, sb):
+        for snowball in self._snowballcontainer.snowballs:
+            if snowball.getID() == sb.getID():
+                snowball.completedToday()
+                self._saveData()
+                break
 
 
 if __name__ == "__main__":
